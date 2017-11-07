@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib import admin
 # Create your models here.
 
 class Proveedor (models.Model):
@@ -9,28 +10,37 @@ class Proveedor (models.Model):
     def __str__(self):
         return self.nombre
 
-class Producto(models.Model):
-
-    nombre    = models.CharField(max_length=60)
-    precio      = models.IntegerField()
-    actores   = models.ManyToManyField(Actor, through='Actuacion')
+class Tipo (models.Model):
+    nombre =   models.CharField(max_length=30)
+    descripcion = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nombre
 
-class Actuacion (models.Model):
+class Producto(models.Model):
 
-    actor = models.ForeignKey(Actor, on_delete=models.CASCADE)
-    pelicula = models.ForeignKey(Pelicula, on_delete=models.CASCADE)
+    nombre    = models.CharField(max_length=30)
+    unidad    = models.CharField(max_length=20)
+    marca    = models.CharField(max_length=30)
+    precio      = models.CharField(max_length=10)
+    proveedor   = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    tipo =  models.ForeignKey(Tipo, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nombre
 
-class ActuacionInLine(admin.TabularInline):
-    model = Actuacion
-#muestra un campo extra al momento de insertar, como indicación que se pueden ingresar N actores.
-    extra = 1
+class Actividad(models.Model):
 
-class ActorAdmin(admin.ModelAdmin):
-    inlines = (ActuacionInLine,)
+    nombre    = models.CharField(max_length=30)
+    productos = models.ManyToManyField(Producto, through='Cotizacion')
 
-class PeliculaAdmin (admin.ModelAdmin):
-    inlines = (ActuacionInLine,)
+    def __str__(self):
+        return self.nombre
+
+class Cotizacion (models.Model):
+
+    fecha = models.DateTimeField(default=timezone.now)
+    cantidad = models.IntegerField()
+    total = models.CharField(max_length=10)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    actividad = models.ForeignKey(Actividad, on_delete=models.CASCADE)
