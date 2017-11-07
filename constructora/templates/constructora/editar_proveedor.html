@@ -1,0 +1,27 @@
+{% extends 'constructora/base.html' %}
+{% block content %}
+<div class="row">
+  <br>
+  <div class="col l4 offset-l4 white">
+    <h4 class="center-align">Editar</h4>
+    <form action="{% url 'url_actualizar_proveedor' p.id %}" method="post">
+    {% csrf_token %}
+      <div class="input-field col l10">
+        <i class="material-icons prefix">edit</i>
+        <label for="nombre">Nombre *</label>
+        <input id="nombre" name="nombre" type="text" value="{{p.nombre}}" required>
+      </div>
+      <div class="input-field col l10">
+        <i class="material-icons prefix">label</i>
+        <label for="desc">Descripcion *</label>
+        <textarea class="materialize-textarea" id="desc" name="descripcion" required>{{p.descripcion}}</textarea>        
+      </div>
+
+        <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
+       <i class="material-icons right">save</i>
+        </button>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends 'constructora/base.html' %}
+{% block content %}
+  <div class="row center-align">
+    <br>
+    <div class="row">
+      <div class="col l6 offset-l2">
+        <h3>Listado de Proveedores</h3>
+      </div>
+      <div class="col l2">
+        <a href="{% url 'url_nuevo_proveedor' %}" class="btn-floating btn-large waves-effect waves-light blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Nuevo Proveedor"><i class="material-icons">add</i></a>
+      </div>
+    </div>
+
+    <div class="col l8 offset-l2">
+      <table class="bordered highlight">
+        <thead >
+          <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Acciones</th>
+          </tr>
+        </thead>
+        {% for p in prov %}
+        <div class="row">
+          <tr>
+            <td>{{p.nombre}}</td>
+            <td>{{p.descripcion}}</td>
+            <td>
+                <div class="col l4">
+                  <form class="" action="{% url 'url_editar_proveedor' pk=p.pk %}" method="post">
+                    {% csrf_token %}
+
+                    <button class="btn-floating white tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar" type="submit" name="button">
+                      <i class="green-text material-icons">edit</i>
+                    </button>
+                  </form>
+                </div>
+                <div class="col l4">
+                  <form class="" action="{% url 'url_eliminar_proveedor' pk=p.pk %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn-floating white tooltipped" data-position="bottom" data-delay="50" data-tooltip="Eliminar" type="submit" name="button">
+                      <i class="red-text material-icons">delete</i>
+                    </button>
+                  </form>
+                </div>
+            </td>
+          </tr>
+        </div>
+
+        {% endfor %}
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

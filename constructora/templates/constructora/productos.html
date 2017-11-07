@@ -1,0 +1,64 @@
+{% extends 'constructora/base.html' %}
+{% block content %}
+  <div class="row center-align">
+    <br>
+    <div class="row">
+      <div class="col l6 offset-l2">
+        <h3>Listado de productos</h3>
+      </div>
+      <div class="col l2">
+        <a href="{% url 'url_nuevo_producto' %}" class="btn-floating btn-large waves-effect waves-light blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Nuevo producto"><i class="material-icons">add</i></a>
+      </div>
+    </div>
+
+    <div class="col l12">
+      <table class="bordered highlight">
+        <thead >
+          <tr>
+              <th>Nombre</th>
+              <th>Unidad</th>
+              <th>Precio</th>
+              <th>Tipo</th>
+              <th>Proveedor</th>
+              <th>Acciones</th>
+          </tr>
+        </thead>
+        {% for p in prod %}
+        <div class="row">
+          <tr>
+            <td>{{p.nombre}}</td>
+            <td>{{p.unidad}}</td>
+            <td>{{p.precio}}</td>
+            <td>{{p.tipo}}</td>
+            <td>{{p.proveedor}}</td>
+            <td>
+                <div class="col l3">
+                  <form class="" action="{% url 'url_editar_producto' pk=p.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="">
+                    <button class="btn-floating white tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar" type="submit" name="button">
+                      <i class="green-text material-icons">edit</i>
+                    </button>
+                  </form>
+                </div>
+                <div class="col l3">
+                  <form class="" action="{% url 'url_eliminar_producto' pk=p.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="">
+                    <button class="btn-floating white tooltipped" data-position="bottom" data-delay="50" data-tooltip="Eliminar" type="submit" name="button">
+                      <i class="red-text material-icons">delete</i>
+                    </button>
+                  </form>
+                </div>
+            </td>
+          </tr>
+        </div>
+
+        {% endfor %}
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}
